@@ -1,4 +1,4 @@
-# smart-git-push 🚀
+# gitflow-cli 🚀
 
 An interactive CLI tool that replaces the repetitive `git add . && git commit -m "" && git push` cycle with a smart, guided terminal experience.
 
@@ -25,7 +25,7 @@ It guides you through everything — staging files, writing a commit message, pi
 ### Step 1 — Clone the repo
 
 ```bash
-git clone https://github.com/shahensaifullah/smart-git-push.git
+git clone git@github.com:shahensaifullah/gitflow-cli.git or git clone https://github.com/shahensaifullah/gitflow-cli.git
 cd smart-git-push
 ```
 
