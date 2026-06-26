@@ -92,4 +92,4 @@ venv/
 ENV/
 
 # ── gpush local history (personal, not shared) ─
-.gpush_history
+.gitflow_history

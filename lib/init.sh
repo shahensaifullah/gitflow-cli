@@ -10,15 +10,12 @@ init_flow() {
   echo ""
   echo -e "${BOLD}${YELLOW}── Initialize New Repo ──────────────────────────${RESET}"
 
-  # Run git init
   git init
   echo -e "  ${GREEN}✓ Git initialized.${RESET}"
 
-  # Set default branch to main
   git checkout -b main 2>/dev/null || git symbolic-ref HEAD refs/heads/main
   echo -e "  ${GREEN}✓ Default branch set to main.${RESET}"
 
-  # Ask for remote URL
   echo ""
   echo -e "  ${BOLD}Paste your GitHub remote URL:${RESET}"
   echo -e "  ${DIM}SSH   : git@github.com:username/repo.git${RESET}"

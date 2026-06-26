@@ -2,7 +2,7 @@
 
 # ═══════════════════════════════════════════════════
 #  push.sh — Main push flow
-#  Triggered by: gpush (no flags)
+#  Triggered by: gitflow (no flags)
 #
 #  Flow:
 #  1. No repo found → offer init or clone
@@ -17,7 +17,7 @@
 push_flow() {
   echo ""
   echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════╗${RESET}"
-  echo -e "${BOLD}${CYAN}║             gpush — Smart Push               ║${RESET}"
+  echo -e "${BOLD}${CYAN}║             gitflow — Smart Push               ║${RESET}"
   echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════╝${RESET}"
   echo ""
 
@@ -81,12 +81,12 @@ push_flow() {
     if [ "$BEHIND" -gt "0" ]; then
       echo ""
       echo -e "  ${RED}⚠  Remote has $BEHIND newer commit(s) you don't have.${RESET}"
-      echo -e "  ${DIM}Recommended: run gpush --pull first to avoid conflicts.${RESET}"
+      echo -e "  ${DIM}Recommended: run gitflow --pull first to avoid conflicts.${RESET}"
       echo ""
       echo -n "  Continue anyway? (y/n): "
       read CONTINUE_ANYWAY
       if [[ "$CONTINUE_ANYWAY" != "y" && "$CONTINUE_ANYWAY" != "Y" ]]; then
-        echo -e "  ${YELLOW}Run: gpush --pull to get latest changes first.${RESET}"
+        echo -e "  ${YELLOW}Run: gitflow --pull to get latest changes first.${RESET}"
         exit 0
       fi
     fi
@@ -106,7 +106,7 @@ push_flow() {
 
   if [ ${#CHANGED_FILES[@]} -eq 0 ]; then
     echo -e "  ${YELLOW}Nothing to commit. Make some changes first.${RESET}"
-    echo -e "  ${DIM}Run gpush --help to see all commands.${RESET}"
+    echo -e "  ${DIM}Run gitflow --help to see all commands.${RESET}"
     exit 0
   fi
 
@@ -284,7 +284,7 @@ push_flow() {
 
   if [[ "$FINAL_CONFIRM" != "y" && "$FINAL_CONFIRM" != "Y" ]]; then
     echo -e "  ${YELLOW}Aborted. Commit saved locally but not pushed.${RESET}"
-    echo -e "  ${DIM}Run gpush again when ready to push.${RESET}"
+    echo -e "  ${DIM}Run gitflow again when ready to push.${RESET}"
     exit 0
   fi
 
@@ -324,18 +324,18 @@ push_flow() {
     LOG_ENTRY="[$(date '+%Y-%m-%d %H:%M:%S')]  branch=$TARGET_BRANCH  commit=$COMMIT_HASH  msg=\"$COMMIT_MSG\""
     echo "$LOG_ENTRY" >> "$HISTORY_FILE"
 
-    echo -e "  ${DIM}Logged to ~/.gpush_history${RESET}"
+    echo -e "  ${DIM}Logged to ~/.gitflow_history${RESET}"
     echo -e "  ${DIM}────────────────────────────────────────────${RESET}"
-    echo -e "  ${DIM}gpush --pull   → sync latest from GitHub${RESET}"
-    echo -e "  ${DIM}gpush --log    → view push history${RESET}"
-    echo -e "  ${DIM}gpush --help   → all commands${RESET}"
+    echo -e "  ${DIM}gitflow --pull   → sync latest from GitHub${RESET}"
+    echo -e "  ${DIM}gitflow --log    → view push history${RESET}"
+    echo -e "  ${DIM}gitflow --help   → all commands${RESET}"
     echo ""
 
   else
     echo ""
     echo -e "  ${RED}✗ Push failed.${RESET}"
     echo -e "  ${DIM}Possible reasons:${RESET}"
-    echo -e "  ${DIM}• Run gpush --pull to sync first${RESET}"
+    echo -e "  ${DIM}• Run gitflow --pull to sync first${RESET}"
     echo -e "  ${DIM}• Check your internet or SSH key${RESET}"
     echo -e "  ${DIM}• Remote URL may be wrong — check: git remote -v${RESET}"
     exit 1

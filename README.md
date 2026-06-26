@@ -13,7 +13,7 @@ An interactive CLI tool that replaces the repetitive `git add . && git commit -m
 Instead of running three commands every time you push, just run:
 
 ```bash
-gpush
+gitflow
 ```
 
 It guides you through everything — staging files, writing a commit message, picking a branch, pulling latest code, handling conflicts, and more. All in one interactive terminal flow.
@@ -25,8 +25,8 @@ It guides you through everything — staging files, writing a commit message, pi
 ### Step 1 — Clone the repo
 
 ```bash
-git clone git@github.com:shahensaifullah/gitflow-cli.git or git clone https://github.com/shahensaifullah/gitflow-cli.git
-cd smart-git-push
+git clone https://github.com/shahensaifullah/gitflow-cli.git
+cd gitflow-cli
 ```
 
 ### Step 2 — Run the installer
@@ -36,8 +36,8 @@ bash install.sh
 ```
 
 The installer will:
-- Copy all files to `~/.gpush/`
-- Create a symlink at `~/.local/bin/gpush`
+- Copy all files to `~/.gitflow/`
+- Create a symlink at `~/.local/bin/gitflow`
 - Automatically add PATH to your `.zshrc` or `.bashrc`
 
 ### Step 3 — Reload your terminal
@@ -51,8 +51,8 @@ source ~/.bashrc
 ### Step 4 — Verify
 
 ```bash
-which gpush
-# Expected: /Users/yourname/.local/bin/gpush
+which gitflow
+# Expected: /Users/yourname/.local/bin/gitflow
 ```
 
 ---
@@ -60,20 +60,21 @@ which gpush
 ## Project Structure
 
 ```
-smart-git-push/
-├── gpush.sh          ← main entry point (thin router)
+gitflow-cli/
+├── gitflow.sh          ← main entry point (thin router)
 ├── install.sh        ← one command installer
 ├── README.md
 ├── .gitignore
 └── lib/
     ├── colors.sh     ← color variables used across all files
-    ├── help.sh       ← gpush --help documentation
-    ├── log.sh        ← gpush --log history viewer
+    ├── help.sh       ← gitflow --help documentation
+    ├── log.sh        ← gitflow --log history viewer
     ├── init.sh       ← new repo initialization
-    ├── clone.sh      ← gpush --clone flow
-    ├── pull.sh       ← gpush --pull / --sync + conflict handler
-    ├── continue.sh   ← gpush --continue after manual conflict fix
-    └── push.sh       ← main push flow
+    ├── clone.sh      ← gitflow --clone flow
+    ├── pull.sh       ← gitflow --pull / --sync + conflict handler
+    ├── continue.sh   ← gitflow --continue after manual conflict fix
+    ├── push.sh       ← main push flow
+    └── checkout.sh   ← gitflow --checkout branch switcher + creator
 ```
 
 ---
@@ -82,23 +83,25 @@ smart-git-push/
 
 | Command | Description |
 |---|---|
-| `gpush` | Full interactive push flow. Offers init or clone if no repo found. |
-| `gpush --pull` | Pull latest code from GitHub with merge or rebase |
-| `gpush --sync` | Same as `--pull` |
-| `gpush --clone` | Clone any GitHub repo to your laptop |
-| `gpush --continue` | Finish push after fixing conflicts manually |
-| `gpush --log` | View your push history |
-| `gpush --help` | Full documentation |
+| `gitflow` | Full interactive push flow. Offers init or clone if no repo found. |
+| `gitflow --pull` | Pull latest code from GitHub with merge or rebase |
+| `gitflow --sync` | Same as `--pull` |
+| `gitflow --checkout` | Switch branch, create branch, search branches |
+| `gitflow --checkout dev` | Directly switch to `dev` branch |
+| `gitflow --clone` | Clone any GitHub repo to your laptop |
+| `gitflow --continue` | Finish push after fixing conflicts manually |
+| `gitflow --log` | View your push history |
+| `gitflow --help` | Full documentation |
 
 ---
 
 ## Push Flow
 
-Running `gpush` in a project folder:
+Running `gitflow` in a project folder:
 
 ```
 ╔══════════════════════════════════════════════╗
-║             gpush — Smart Push               ║
+║             gitflow — Smart Push               ║
 ╚══════════════════════════════════════════════╝
 
   Fetching remote info...
@@ -154,15 +157,15 @@ Running `gpush` in a project folder:
 
   Commit hash : a3f9c12
   Branch      : dev
-  URL         : https://github.com/shahensaifullah/smart-git-push/tree/dev
-  Logged to ~/.gpush_history
+  URL         : https://github.com/shahensaifullah/gitflow-cli/tree/dev
+  Logged to ~/.gitflow_history
 ```
 
 ---
 
 ## No Repo Found Flow
 
-Running `gpush` in a folder with no git repo:
+Running `gitflow` in a folder with no git repo:
 
 ```
 ⚠  No git repository found in this folder.
@@ -189,14 +192,14 @@ Picking **[2]** asks for the GitHub URL (SSH or HTTPS) and clones the repo.
 ## Pull & Sync Flow
 
 ```bash
-gpush --pull
+gitflow --pull
 # or
-gpush --sync
+gitflow --sync
 ```
 
 ```
 ╔══════════════════════════════════════════════╗
-║           gpush — Pull & Sync                ║
+║           gitflow — Pull & Sync                ║
 ╚══════════════════════════════════════════════╝
 
   Fetching latest from GitHub...
@@ -230,7 +233,7 @@ gpush --sync
 
 ## Conflict Handler
 
-If a pull causes conflicts, gpush walks you through fixing them:
+If a pull causes conflicts, gitflow walks you through fixing them:
 
 ```
   ⚠  Conflicts found in these files:
@@ -253,7 +256,7 @@ If a pull causes conflicts, gpush walks you through fixing them:
 
   [3] Fix manually
       → Opens conflict files in your editor.
-        Fix the conflicts, then run: gpush --continue
+        Fix the conflicts, then run: gitflow --continue
         Use when: you need changes from both sides.
 
   [4] Abort
@@ -263,7 +266,7 @@ If a pull causes conflicts, gpush walks you through fixing them:
 After fixing conflicts manually, finish with:
 
 ```bash
-gpush --continue
+gitflow --continue
 ```
 
 ---
@@ -271,7 +274,7 @@ gpush --continue
 ## Clone Flow
 
 ```bash
-gpush --clone
+gitflow --clone
 ```
 
 ```
@@ -279,20 +282,20 @@ gpush --clone
   SSH   example: git@github.com:username/repo.git
   HTTPS example: https://github.com/username/repo.git
 
-  Paste GitHub URL: git@github.com:shahensaifullah/smart-git-push.git
+  Paste GitHub URL: git@github.com:shahensaifullah/gitflow-cli.git
 
   Clone into which folder? (press Enter for current folder):
 
   ✓ Clone successful!
   Go into your project:
-    cd smart-git-push
+    cd gitflow-cli
 ```
 
 ---
 
 ## Branch Shortcuts
 
-When selecting a branch during `gpush`, you can use shortcuts:
+When selecting a branch during `gitflow`, you can use shortcuts:
 
 | Type | Creates |
 |---|---|
@@ -306,12 +309,12 @@ When selecting a branch during `gpush`, you can use shortcuts:
 
 ## Push History
 
-Every push is logged automatically to `~/.gpush_history`.
+Every push is logged automatically to `~/.gitflow_history`.
 
 View it anytime:
 
 ```bash
-gpush --log
+gitflow --log
 ```
 
 ```

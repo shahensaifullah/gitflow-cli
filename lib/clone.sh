@@ -2,7 +2,7 @@
 
 # ═══════════════════════════════════════════════════
 #  clone.sh — Clone a GitHub repo to your laptop
-#  Triggered by: gpush --clone
+#  Triggered by: gitflow --clone
 #  Also called by: push.sh when no git repo is found
 #  and user picks option [2]
 # ═══════════════════════════════════════════════════
@@ -10,7 +10,7 @@
 clone_flow() {
   echo ""
   echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════╗${RESET}"
-  echo -e "${BOLD}${CYAN}║           gpush — Clone a Repo               ║${RESET}"
+  echo -e "${BOLD}${CYAN}║           gitflow — Clone a Repo             ║${RESET}"
   echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════╝${RESET}"
   echo ""
   echo -e "${BOLD}${YELLOW}── Clone a GitHub Repo ──────────────────────────${RESET}"
@@ -47,7 +47,7 @@ clone_flow() {
     echo -e "  ${BOLD}Next step — go into your project:${RESET}"
     echo -e "  ${CYAN}  cd $DEST${RESET}"
     echo ""
-    echo -e "  ${DIM}Then run gpush to start pushing code.${RESET}"
+    echo -e "  ${DIM}Then run gitflow to start pushing code.${RESET}"
     echo ""
   else
     echo ""

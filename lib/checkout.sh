@@ -3,14 +3,14 @@
 # ═══════════════════════════════════════════════════
 #  checkout.sh — Smart branch checkout with pagination
 #  and search. Optionally pull after switching.
-#  Triggered by: gpush --checkout
-#               gpush --checkout <branchname>
+#  Triggered by: gitflow --checkout
+#               gitflow --checkout <branchname>
 # ═══════════════════════════════════════════════════
 
 checkout_flow() {
   echo ""
   echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════╗${RESET}"
-  echo -e "${BOLD}${CYAN}║         gpush — Branch Checkout              ║${RESET}"
+  echo -e "${BOLD}${CYAN}║         gitflow — Branch Checkout              ║${RESET}"
   echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════╝${RESET}"
   echo ""
 
@@ -21,7 +21,7 @@ checkout_flow() {
   fi
 
   # ── If branch name passed directly ──────────────
-  # e.g. gpush --checkout dev
+  # e.g. gitflow --checkout dev
   if [ -n "$1" ]; then
     TARGET_BRANCH="$1"
     _do_checkout "$TARGET_BRANCH"
@@ -160,7 +160,7 @@ checkout_flow() {
           echo -e "  ${GREEN}✓ Created and switched to '$NEW_BRANCH'${RESET}"
           echo -e "  ${DIM}Based on: $BASE_BRANCH${RESET}"
           echo ""
-          echo -e "  ${DIM}Run gpush when ready to push this branch.${RESET}"
+          echo -e "  ${DIM}Run gitflow when ready to push this branch.${RESET}"
           echo ""
         else
           echo -e "  ${RED}✗ Failed to create branch '$NEW_BRANCH'.${RESET}"
@@ -274,7 +274,7 @@ _do_checkout() {
   if [[ "$PULL_CONFIRM" != "y" && "$PULL_CONFIRM" != "Y" ]]; then
     echo ""
     echo -e "  ${GREEN}✓ Ready to work on '$BRANCH'${RESET}"
-    echo -e "  ${DIM}Run gpush when ready to push.${RESET}"
+    echo -e "  ${DIM}Run gitflow when ready to push.${RESET}"
     echo ""
     return
   fi
@@ -338,12 +338,12 @@ _do_checkout() {
     echo -e "  ${GREEN}✓ Pulled latest code for '$BRANCH'${RESET}"
     echo -e "  ${GREEN}✓ Ready to work!${RESET}"
     echo ""
-    echo -e "  ${DIM}Run gpush when ready to push.${RESET}"
+    echo -e "  ${DIM}Run gitflow when ready to push.${RESET}"
     echo ""
   else
     echo ""
     echo -e "  ${RED}⚠ Pull had conflicts.${RESET}"
-    echo -e "  ${DIM}Run: gpush --pull to handle conflicts.${RESET}"
+    echo -e "  ${DIM}Run: gitflow --pull to handle conflicts.${RESET}"
     echo ""
   fi
 }

@@ -2,7 +2,7 @@
 
 # ═══════════════════════════════════════════════════
 #  pull.sh — Pull latest code + conflict handler
-#  Triggered by: gpush --pull or gpush --sync
+#  Triggered by: gitflow --pull or gitflow --sync
 #
 #  Flow:
 #  1. Fetch remote info
@@ -11,14 +11,14 @@
 #  4. If conflicts found → offer 4 resolution options
 #     [1] Take remote version
 #     [2] Keep my version
-#     [3] Fix manually → gpush --continue
+#     [3] Fix manually → gitflow --continue
 #     [4] Abort
 # ═══════════════════════════════════════════════════
 
 pull_flow() {
   echo ""
   echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════╗${RESET}"
-  echo -e "${BOLD}${CYAN}║           gpush — Pull & Sync                ║${RESET}"
+  echo -e "${BOLD}${CYAN}║           gitflow — Pull & Sync                ║${RESET}"
   echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════╝${RESET}"
   echo ""
 
@@ -86,7 +86,7 @@ pull_flow() {
     echo -e "  ${YELLOW}Cancelled. Nothing changed.${RESET}"
     exit 0
   else
-    echo -e "  ${RED}✗ Invalid choice. Run gpush --pull to try again.${RESET}"
+    echo -e "  ${RED}✗ Invalid choice. Run gitflow --pull to try again.${RESET}"
     exit 1
   fi
 
@@ -127,7 +127,7 @@ pull_flow() {
       echo -e "        ${DIM}======= (separator)${RESET}"
       echo -e "        ${DIM}>>>>>>> (their code)${RESET}"
       echo -e "        Delete the markers, keep what you want, save the file."
-      echo -e "        Then run: ${GREEN}gpush --continue${RESET}"
+      echo -e "        Then run: ${GREEN}gitflow --continue${RESET}"
       echo -e "        ${DIM}Use when: you need changes from both sides.${RESET}"
       echo ""
       echo -e "  ${CYAN}[4] Abort${RESET}"
@@ -180,7 +180,7 @@ pull_flow() {
           echo -e "  ${DIM}>>>>>>> origin/... ← their code ends here${RESET}"
           echo ""
           echo -e "  ${YELLOW}Fix each file, save, then run:${RESET}"
-          echo -e "  ${GREEN}  gpush --continue${RESET}"
+          echo -e "  ${GREEN}  gitflow --continue${RESET}"
           echo ""
           exit 0
           ;;
@@ -191,7 +191,7 @@ pull_flow() {
           exit 0
           ;;
         *)
-          echo -e "  ${RED}✗ Invalid choice. Run gpush --pull to try again.${RESET}"
+          echo -e "  ${RED}✗ Invalid choice. Run gitflow --pull to try again.${RESET}"
           exit 1
           ;;
       esac
@@ -210,8 +210,8 @@ pull_flow() {
     echo -e "  ${GREEN}✓ Sync complete! Your code is up to date.${RESET}"
     echo ""
     echo -e "  ${DIM}────────────────────────────────────────────${RESET}"
-    echo -e "  ${DIM}gpush         → push your changes${RESET}"
-    echo -e "  ${DIM}gpush --help  → all commands${RESET}"
+    echo -e "  ${DIM}gitflow         → push your changes${RESET}"
+    echo -e "  ${DIM}gitflow --help  → all commands${RESET}"
     echo ""
   fi
 }

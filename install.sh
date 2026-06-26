@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ═══════════════════════════════════════════════════
-#  install.sh — Installer for smartgit-cli
+#  install.sh — Installer for gitflow-cli
 #
 #  How to use:
 #  1. Clone or download this repo
@@ -18,8 +18,7 @@ DIM='\033[2m'
 RESET='\033[0m'
 
 # ── Install location ──────────────────────────────
-# Hidden folder under home: ~/.smartgit-cli/
-INSTALL_DIR="$HOME/.smartgit-cli"
+INSTALL_DIR="$HOME/.gitflow-cli"
 LIB_DIR="$INSTALL_DIR/lib"
 
 # ── Where this script is running from ────────────
@@ -27,7 +26,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo ""
 echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}${CYAN}║        smartgit-cli — Installer              ║${RESET}"
+echo -e "${BOLD}${CYAN}║         gitflow-cli — Installer              ║${RESET}"
 echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════╝${RESET}"
 echo ""
 
@@ -41,47 +40,36 @@ echo -e "  ${GREEN}✓ $LIB_DIR/${RESET}"
 echo ""
 echo -e "  ${CYAN}[2/4] Copying files...${RESET}"
 
-# Check gpush.sh exists
-if [ ! -f "$REPO_DIR/gpush.sh" ]; then
-  echo -e "  ${RED}✗ gpush.sh not found in $REPO_DIR${RESET}"
+# Check gitflow.sh exists
+if [ ! -f "$REPO_DIR/gitflow.sh" ]; then
+  echo -e "  ${RED}✗ gitflow.sh not found in $REPO_DIR${RESET}"
   echo -e "  ${DIM}Make sure you run: bash install.sh from inside the repo folder.${RESET}"
   exit 1
 fi
 
 # Copy main executable
-cp "$REPO_DIR/gpush.sh" "$INSTALL_DIR/gpush.sh"
-echo -e "  ${GREEN}✓ gpush.sh${RESET}"
+cp "$REPO_DIR/gitflow.sh" "$INSTALL_DIR/gitflow.sh"
+echo -e "  ${GREEN}✓ gitflow.sh${RESET}"
 
-# Copy lib files — look in lib/ subfolder first, then root
-copy_lib_file() {
-  local filename=$1
-  if [ -f "$REPO_DIR/lib/$filename" ]; then
-    cp "$REPO_DIR/lib/$filename" "$LIB_DIR/$filename"
-    echo -e "  ${GREEN}✓ lib/$filename${RESET}"
-  elif [ -f "$REPO_DIR/$filename" ]; then
-    cp "$REPO_DIR/$filename" "$LIB_DIR/$filename"
-    echo -e "  ${GREEN}✓ lib/$filename${RESET} ${DIM}(copied from root)${RESET}"
-  else
-    echo -e "  ${RED}✗ $filename not found — skipping${RESET}"
-  fi
-}
-
-copy_lib_file colors.sh
-copy_lib_file help.sh
-copy_lib_file log.sh
-copy_lib_file init.sh
-copy_lib_file clone.sh
-copy_lib_file pull.sh
-copy_lib_file continue.sh
-copy_lib_file push.sh
-copy_lib_file checkout.sh
+# Copy lib folder directly
+if [ -d "$REPO_DIR/lib" ]; then
+  cp -r "$REPO_DIR/lib/"* "$LIB_DIR/"
+  echo -e "  ${GREEN}✓ lib/ folder copied${RESET}"
+  for f in "$LIB_DIR/"*.sh; do
+    echo -e "  ${GREEN}✓ lib/$(basename $f)${RESET}"
+  done
+else
+  echo -e "  ${RED}✗ lib/ folder not found in $REPO_DIR${RESET}"
+  echo -e "  ${DIM}Make sure your repo has a lib/ folder with all the sh files.${RESET}"
+  exit 1
+fi
 
 # ── Step 3: Make all files executable ────────────
 echo ""
 echo -e "  ${CYAN}[3/4] Setting permissions...${RESET}"
-chmod +x "$INSTALL_DIR/gpush.sh"
+chmod +x "$INSTALL_DIR/gitflow.sh"
 chmod +x "$LIB_DIR/"*.sh 2>/dev/null
-echo -e "  ${GREEN}✓ chmod +x set on gpush.sh${RESET}"
+echo -e "  ${GREEN}✓ chmod +x set on gitflow.sh${RESET}"
 echo -e "  ${GREEN}✓ chmod +x set on all lib files${RESET}"
 
 # ── Step 4: Add alias to shell config ────────────
@@ -104,36 +92,37 @@ else
 fi
 
 # Add alias only if not already there
-if grep -q 'smartgit-cli' "$SHELL_RC" 2>/dev/null; then
+if grep -q 'gitflow-cli' "$SHELL_RC" 2>/dev/null; then
   echo -e "  ${YELLOW}⚠ Already configured in $SHELL_RC — skipping.${RESET}"
 else
-  echo ""                                                             >> "$SHELL_RC"
-  echo "# smartgit-cli — smart interactive git tool"                 >> "$SHELL_RC"
-  echo "alias gpush=\"\$HOME/.smartgit-cli/gpush.sh\""               >> "$SHELL_RC"
+  echo ""                                                              >> "$SHELL_RC"
+  echo "# gitflow-cli — smart interactive git tool"                   >> "$SHELL_RC"
+  echo "alias gitflow=\"\$HOME/.gitflow-cli/gitflow.sh\""             >> "$SHELL_RC"
   echo -e "  ${GREEN}✓ Alias added to $SHELL_RC ($SHELL_NAME)${RESET}"
+  echo -e "  ${GREEN}✓ alias gitflow → ~/.gitflow-cli/gitflow.sh${RESET}"
 fi
 
 # ── Done ──────────────────────────────────────────
 echo ""
 echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}${GREEN}║  ✓ smartgit-cli installed successfully!      ║${RESET}"
+echo -e "${BOLD}${GREEN}║  ✓ gitflow-cli installed successfully!       ║${RESET}"
 echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════╝${RESET}"
 echo ""
 echo -e "  ${BOLD}Installed at:${RESET}"
-echo -e "  ${DIM}  ~/.smartgit-cli/${RESET}"
-echo -e "  ${DIM}  ~/.smartgit-cli/lib/${RESET}"
+echo -e "  ${DIM}  ~/.gitflow-cli/${RESET}"
+echo -e "  ${DIM}  ~/.gitflow-cli/lib/${RESET}"
 echo ""
 echo -e "  ${BOLD}Reload your terminal:${RESET}"
 echo -e "  ${CYAN}  source $SHELL_RC${RESET}"
 echo ""
 echo -e "  ${BOLD}Then start using:${RESET}"
-echo -e "  ${CYAN}  gpush${RESET}              ${DIM}→ push your code${RESET}"
-echo -e "  ${CYAN}  gpush --pull${RESET}       ${DIM}→ pull latest${RESET}"
-echo -e "  ${CYAN}  gpush --checkout${RESET}   ${DIM}→ switch or create branch${RESET}"
-echo -e "  ${CYAN}  gpush --clone${RESET}      ${DIM}→ clone a repo${RESET}"
-echo -e "  ${CYAN}  gpush --help${RESET}       ${DIM}→ all commands${RESET}"
+echo -e "  ${CYAN}  gitflow${RESET}              ${DIM}→ push your code${RESET}"
+echo -e "  ${CYAN}  gitflow --pull${RESET}       ${DIM}→ pull latest${RESET}"
+echo -e "  ${CYAN}  gitflow --checkout${RESET}   ${DIM}→ switch or create branch${RESET}"
+echo -e "  ${CYAN}  gitflow --clone${RESET}      ${DIM}→ clone a repo${RESET}"
+echo -e "  ${CYAN}  gitflow --help${RESET}       ${DIM}→ all commands${RESET}"
 echo ""
 echo -e "  ${DIM}To uninstall:${RESET}"
-echo -e "  ${DIM}  rm -rf ~/.smartgit-cli${RESET}"
-echo -e "  ${DIM}  Then remove the gpush alias from $SHELL_RC${RESET}"
+echo -e "  ${DIM}  rm -rf ~/.gitflow-cli${RESET}"
+echo -e "  ${DIM}  Then remove the gitflow alias from $SHELL_RC${RESET}"
 echo ""
