@@ -40,15 +40,23 @@ echo -e "  ${GREEN}✓ $LIB_DIR/${RESET}"
 echo ""
 echo -e "  ${CYAN}[2/4] Copying files...${RESET}"
 
-# Check gitflow.sh exists
-if [ ! -f "$REPO_DIR/gitflow.sh" ]; then
-  echo -e "  ${RED}✗ gitflow.sh not found in $REPO_DIR${RESET}"
+# Find main executable (gitflow.sh or gpush.sh)
+MAIN_FILE=""
+if [ -f "$REPO_DIR/gitflow.sh" ]; then
+  MAIN_FILE="$REPO_DIR/gitflow.sh"
+elif [ -f "$REPO_DIR/gpush.sh" ]; then
+  MAIN_FILE="$REPO_DIR/gpush.sh"
+else
+  echo -e "  ${RED}✗ Main script not found in $REPO_DIR${RESET}"
+  echo -e "  ${DIM}Files found:${RESET}"
+  ls "$REPO_DIR" | while read f; do echo -e "  ${DIM}  $f${RESET}"; done
+  echo ""
   echo -e "  ${DIM}Make sure you run: bash install.sh from inside the repo folder.${RESET}"
   exit 1
 fi
 
 # Copy main executable
-cp "$REPO_DIR/gitflow.sh" "$INSTALL_DIR/gitflow.sh"
+cp "$MAIN_FILE" "$INSTALL_DIR/gitflow.sh"
 echo -e "  ${GREEN}✓ gitflow.sh${RESET}"
 
 # Copy lib folder directly
