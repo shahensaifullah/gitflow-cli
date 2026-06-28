@@ -29,6 +29,8 @@ source "$LIB/pull.sh"
 source "$LIB/continue.sh"
 source "$LIB/push.sh"
 source "$LIB/checkout.sh"
+source "$LIB/untrack.sh"
+source "$LIB/delete.sh"
 
 # ── History file ──────────────────────────────────
 HISTORY_FILE="$HOME/.gitflow_history"
@@ -41,6 +43,8 @@ case "$1" in
   --pull|--sync)    pull_flow              ;;
   --continue)       continue_flow          ;;
   --checkout)       checkout_flow "$2"     ;;
+  --untrack)        untrack_flow "${@:2}"  ;;
+  --delete)         delete_flow "${@:2}"   ;;
   "")               push_flow              ;;
   *)
     echo ""
